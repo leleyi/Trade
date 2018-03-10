@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-2.1.3.js"></script>
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <!--//theme-style-->
+    <script src="js/bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <script type="text/javascript" src="js/nav.js"></script>
+    <script src="js/vue.js"></script>
+    <style>
+        #login {
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        #login .modal-dialog {
+            transform: translate(0%, 90%);
+        }
+
+        #regist {
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        #regist .modal-dialog {
+            transform: translate(0%, 50%);
+        }
+    </style>
+</head>
+<body>
+<!--header-->
+<div>
+    <div>
+        <div class="header" id="indexInfo">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-top-in">
+                        <div class="logo">
+                            <a href="index.html"><img src="images/logo.png" alt=" "></a>
+                        </div>
+                        <div class="header-in">
+                            <ul class="icon1 sub-icon1">
+                                <li v-show="loginInfo.loginStatus">
+                                    <a>{{loginInfo.username}}，欢迎你</a>
+                                </li>
+                                <li>
+                                    <a v-if="loginInfo.loginStatus" v-on:click="goBackProject">
+                                        个人信息
+                                    </a>
+                                    <a v-else v-on:click="goWin(0)" id="personalInfo">
+                                        亲，请登陆
+                                    </a>
+                                </li>
+                                <li>
+                                    <a v-if="loginInfo.loginStatus" v-on:click="goBackProject">
+                                        我有好货
+                                    </a>
+                                    <a v-else v-on:click="goWin(1)" id="personalGoods">
+                                        我有好货
+                                    </a>
+                                </li>
+                                <li>
+                                    <a v-if="loginInfo.loginStatus" id="checkout" v-on:click="goLogout">
+                                        退出
+                                    </a>
+                                </li>
+                                <div class="clearfix"></div>
+                            </ul>
+                            </li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom" id="header-bottom">
+                <div class="container">
+                    <div class="h_menu4">
+                        <a class="toggleMenu" href="#">菜单</a>
+                        <ul class="nav">
+                            <li class="active">
+                                <a><i> </i>主页</a>
+                            </li>
+
+                        </ul>
+                        <div class="header-can">
+                            <div class="down-top">
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for..."
+                                           v-model="keyword">
+                                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" v-on:click="search">Go!</button> </span>
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- 登录窗口 -->
+            <div id="login" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button class="close" v-on:click="cancel(0)">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-title">
+                            <a href="index.html"><img src="images/logo.png" alt=" "></a>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-group" action="">
+                                <div class="form-group">
+                                    <label for="">用户名</label>
+                                    <input class="form-control" type="text" placeholder="请输入用户名"
+                                           v-model="loginInfo.username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">密码</label>
+                                    <input class="form-control" type="password" placeholder="输入用户密码"
+                                           v-model="loginInfo.password">
+                                    <label>请输入密码</label>
+                                </div>
+                                <div style="font-size: 20px; color: red;">{{loginInfo.message}}
+                                </div>
+                                <div class="text-right">
+                                    <button class="btn btn-primary" type="button" v-on:click="goLogin">登录</button>
+                                    <button class="btn btn-danger" type="button" v-on:click="cancel(0)">取消</button>
+                                </div>
+                                <a href="" data-toggle="modal" v-on:click="goWin(1)">还没有账号？点我注册</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="regist" class="modal fade" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button class="close" v-on:click="cancel(1)">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-title">
+                            <img src="images/logo.png" style="margin-left: 26%;">
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-group" action="">
+                                <div class="form-group">
+                                    <label for="">邮箱账号</label>
+                                    <input class="form-control" type="text" placeholder="邮箱账号"
+                                           v-model="email">
+                                    <label style="font-size: 10px; color: #BCB099;margin-left: 10px;">e.g.ershou@xx.com</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">用户名</label>
+                                    <input class="form-control" type="text" placeholder="请输入用户名"
+                                           v-model="registerInfo.username">
+                                    <label style="font-size: 12px; color:  #BCB099;    margin-left: 10px;">e.g.超级大西瓜</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">密码</label>
+                                    <input class="form-control" type="password" placeholder="输入用户密码"
+                                           v-model="registerInfo.password">
+                                    <label style="font-size: 12px; color:  #BCB099;    margin-left: 10px;">e.g.1234567</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">确认密码</label>
+                                    <input class="form-control" type="password" placeholder="输入用户密码"
+                                           v-model="repassword">
+                                    <label style="font-size: 10px; color:  #BCB099;margin-left:10px">{{isMatching}}</label>
+                                </div>
+                        </div>
+                        <div class="text-right">
+                            <button class="btn btn-primary" type="button" v-on:click="goRegist">注册</button>
+                            <button class="btn btn-danger" type="button" v-on:click="cancel">取消</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content_iframe" style="overflow: hidden;width: 100%;">
+        <iframe id="iframe_box" src="home.html" frameborder="0" style="width: 100%;"
+                onload="this.height=this.contentWindow.document.documentElement.scrollHeight"></iframe>
+
+    </div>
+
+    <div class="footer">
+        <!---->
+        <div class="footer-middle">
+            <div class="container">
+                <div class="footer-middle-in">
+                    <h6>关于我</h6>
+                    <p>2014级毕业生，毕业设计。校园二手交易平台</p>
+                </div>
+                <div class="footer-middle-in">
+                    <h6>信息</h6>
+                    <ul>
+                        <li><a href="#">邮箱：653574288@qq.com</a></li>
+                        <!--<li><a href="#">Delivery Information</a></li>-->
+                        <!--<li><a href="#">Privacy Policy</a></li>-->
+                        <!--<li><a href="#">Terms & Conditions</a></li>-->
+                    </ul>
+                </div>
+                <div class="footer-middle-in">
+                    <h6>服务</h6>
+                    <ul>
+                        <li><a href="contact.html">联系我</a></li>
+                        <!--<li><a href="#">Returns</a></li>-->
+                        <!--<li><a href="#">Site Map</a></li>-->
+                    </ul>
+                </div>
+                <div class="footer-middle-in">
+                    <h6>联系我</h6>
+                    <ul>
+                        <li><a href="account.html">我的账户</a></li>
+                        <!--<li><a href="#">Order History</a></li>-->
+                        <li><a href="wishlist.html">心愿单</a></li>
+                        <!--<li><a href="#">Newsletter</a></li>-->
+                    </ul>
+                </div>
+                <div class="footer-middle-in">
+                    <h6>其他</h6>
+                    <ul>
+                        <li><a href="#">特别的</a></li>
+                        <!--<li><a href="#">Gift Vouchers</a></li>-->
+                        <!--<li><a href="#">Affiliates</a></li>-->
+                        <!--<li><a href="#">Specials</a></li>-->
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <p class="footer-class">Copyright &copy; lesliu <a href="http://nc.moxxom.cn/" target="_blank"
+                                                           title="LESLIUHOME">LESHOME</a>
+            - Collect from <a href="http://nc.moxxom.cn/" title="" target="_blank">lesliu</a></p>
+        <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    </div>
+</div>
+
+
+<script src="js/index.js"></script>
+</body>
+
+</html>

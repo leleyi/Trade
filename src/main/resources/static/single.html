@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Single</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+
+    <script src="js/vue.js"></script>
+    <script src="js/index.js"></script>
+    <script type="text/javascript" src="js/single.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <style>
+        #givePrice {
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        #givePrice .modal-dialog {
+            transform: translate(0%, 60%);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="single" id="goodsDetail">
+        <div class="col-md-9 top-in-single">
+            <div class="col-md-5 single-top">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <li v-for="img in goodsDetail.imgs" :data-thumb="img.img" class="clone" aria-hidden="true"
+                            style="float: left; display: block; width: 316px;">
+                            <div class="thumb-image">
+                                <img :src="img.img" data-imagezoom="true" class="img-responsive" draggable="false">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- end product_slider -->
+            </div>
+            <!--商品信息-->
+            <div class="col-md-7 single-top-in">
+                <div class="single-para">
+                    <h4>{{goodsDetail.name}}</h4>
+                    <div class="para-grid">
+                        <span class="add-to">{{goodsDetail.price}}</span>
+                        <a href="#" class="hvr-shutter-in-vertical cart-to">加入心愿单</a>
+                        <div class="clearfix"></div>
+                    </div>
+                    <h5>{{goodsDetail.old}}</h5>
+                    <div class="available">
+                        <h6>使用时间</h6>
+                    </div>
+                    <p>{{goodsDetail.summary}}</p>
+                    <a href="#" class="hvr-shutter-in-vertical " v-on:click="goGivePriceWin()">我愿意出价</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div><h3 class="future">猜你喜欢</h3></div>
+            <!--类似的商品-->
+            <div class="content-top-in">
+                <div class="col-md-4 top-single" v-for="similar in similarList">
+                    <div class="col-md">
+                        <a @click="goodsDetail(similar)">
+                            <img src="images/pic8.jpg" alt=""/></a>
+                        <div class="top-content">
+                            <h5><a @click="goodsDetail(item)">{{similar.name}}</a></h5>
+                            <div class="white">
+                                <a class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">添加到心愿单</a>
+                                <p class="dollar"><span class="in-dollar">{{similar.price}}</span></p>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="single-bottom">
+                <h4>分类</h4>
+                <ul>
+                    <li><a href="#"><i> </i>生活日用</a></li>
+                    <li><a href="#"><i> </i>信息技术</a></li>
+                    <li><a href="#"><i> </i>图书资料</a></li>
+                    <li><a href="#"><i> </i>手机电脑</a></li>
+                    <li><a href="#"><i> </i>其他物品</a></li>
+                </ul>
+            </div>
+            <div class="single-bottom">
+                <h4>交易</h4>
+                <ul>
+                    <li><a href="#"><i> </i>feugiat(5)</a></li>
+                    <li><a href="#"><i> </i>Fusce (4)</a></li>
+                    <li><a href="#"><i> </i>feugiat (4)</a></li>
+                    <li><a href="#"><i> </i>Fusce (4)</a></li>
+                </ul>
+            </div>
+            <div class="single-bottom">
+                <h4>他的商品</h4>
+                <div class="product" v-for="hisGoods in hisGoodsList">
+                    <img class="img-responsive fashion" :src="hisGoods.picture" alt="" width="98" height="98">
+                    <div class="grid-product">
+                        <a href="#" class="elit">{{hisGoods.summary}}</a>
+                        <span class="price price-in"><small>{{hisGoods.price}}</small> {{hisGoods.price}}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="givePrice" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button class="close"  @click="cancel" >
+                            <span >&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-title">
+                        <img src="images/logo.png" style="margin-left: 26%;">
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" action="">
+                            <div class="form-group" >
+                                <label for="">意愿价格</label>
+                                <input class="form-control" type="text"  placeholder="输入您的意愿价格" v-model="emailMessages.giveprice">
+                            </div>
+                            <div class="form-group">
+                                <label for="">留言消息</label>
+                                <textarea class="form-control"  type="text" placeholder="留言消息" v-model="emailMessages.givewords" ></textarea>
+                                <label style="font-size: 12px; color:  #BCB099;    margin-left: 10px;">您的消息与意愿价格将发至货主邮箱--请及时关注莱斯商城--卖家可能在莱斯商城上对您进行回复</label>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" type="button" v-on:click = "sendMessage">发送意愿</button>
+                                <button class="btn btn-danger"  type="button" v-on:click = "cancel" >取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<script src="js/imagezoom.js"></script>
+<script defer src="js/jquery.flexslider.js"></script>
+<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
+</body>
+
+</html>
