@@ -1,7 +1,6 @@
 package cn.lesliu.Trading.common;
 
 import cn.lesliu.Trading.pojo.EmailMessages;
-import cn.lesliu.Trading.pojo.User;
 import cn.lesliu.Trading.pojo.UserDetail;
 import freemarker.core.ParseException;
 import freemarker.template.*;

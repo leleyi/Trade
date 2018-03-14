@@ -468,6 +468,7 @@
     <result column="picture" property="picture" />
     <result column="userid" property="userid" />
     <result column="adv" property="adv" />
+    <result column="originalcost" property="originalcost"></result>
     <collection ofType="cn.lesliu.Trading.pojo.GoodsImg" property="imgs">
       <id column="imgid" property="imgid" />
       <result column="goodsid" property="goodsid" />

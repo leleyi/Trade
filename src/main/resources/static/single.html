@@ -56,15 +56,17 @@
                 <div class="single-para">
                     <h4>{{goodsDetail.name}}</h4>
                     <div class="para-grid">
-                        <span class="add-to">{{goodsDetail.price}}</span>
+                        <span class="add-to">
+                         <span class="price price-in"><small>原价：{{goodsDetail.originalcost}}</small> {{goodsDetail.price}} 元</span>
+                        </span>
                         <a href="#" class="hvr-shutter-in-vertical cart-to">加入心愿单</a>
                         <div class="clearfix"></div>
                     </div>
-                    <h5>{{goodsDetail.old}}</h5>
-                    <div class="available">
-                        <h6>使用时间</h6>
-                    </div>
                     <p>{{goodsDetail.summary}}</p>
+                    <div class="available">
+                        <h6>使用时间: {{goodsDetail.usetime}} 天</h6>
+                        <h6>磨损情况: {{goodsDetail.old}} 成新</h6>
+                    </div>
                     <a href="#" class="hvr-shutter-in-vertical " v-on:click="goGivePriceWin()">我愿意出价</a>
                 </div>
             </div>
@@ -74,10 +76,10 @@
             <div class="content-top-in">
                 <div class="col-md-4 top-single" v-for="similar in similarList">
                     <div class="col-md">
-                        <a @click="goodsDetail(similar)">
+                        <a v-on:click="similarGoodsDetail(similar)">
                             <img src="images/pic8.jpg" alt=""/></a>
                         <div class="top-content">
-                            <h5><a @click="goodsDetail(item)">{{similar.name}}</a></h5>
+                            <h5><a v-on:click="similarGoodsDetail(similar)">{{similar.name}}</a></h5>
                             <div class="white">
                                 <a class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">添加到心愿单</a>
                                 <p class="dollar"><span class="in-dollar">{{similar.price}}</span></p>
@@ -112,10 +114,10 @@
             <div class="single-bottom">
                 <h4>他的商品</h4>
                 <div class="product" v-for="hisGoods in hisGoodsList">
-                    <img class="img-responsive fashion" :src="hisGoods.picture" alt="" width="98" height="98">
+                    <img class="img-responsive fashion" :src="hisGoods.picture" v-on:click="similarGoodsDetail(hisGoods)" style="cursor:pointer; " alt="" width="98" height="98">
                     <div class="grid-product">
-                        <a href="#" class="elit">{{hisGoods.summary}}</a>
-                        <span class="price price-in"><small>{{hisGoods.price}}</small> {{hisGoods.price}}</span>
+                        <a href="#" class="elit" v-on:click="similarGoodsDetail(hisGoods)">{{hisGoods.summary}}</a>
+                        <span style="cursor:pointer;" class="price price-in"  v-on:click="similarGoodsDetail(hisGoods)"><small>{{hisGoods.price}}</small> {{hisGoods.price}}</span>
                     </div>
                     <div class="clearfix"></div>
                 </div>

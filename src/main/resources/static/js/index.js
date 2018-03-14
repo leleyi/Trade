@@ -109,7 +109,6 @@ function vbind_index_info() {
                     if (data.code == 200) {
                         _this.loginInfo.loginStatus = true;
                         _this.loginInfo.username = data.data.username;
-                        loginedUser = data.data;
                         $("#login").css("display", 'none');
                     } else if (data.code == 400) {
                         /*用户名密码错误*/
@@ -167,7 +166,6 @@ function vbind_index_info() {
                 if(data.code == 200){
                     _this.loginInfo.loginStatus = true;
                     _this.loginInfo.username = data.data.username;
-                    loginedUser = data.data;
                 }else {
                     _this.loginInfo.loginStatus = false;
                 }

@@ -1,13 +1,9 @@
 $(function () {
-    init_goodsDetail_utils();
 
     vbind_goods_featured_detail();
 
 })
-/*初始化工具*/
-function init_goodsDetail_utils() {
 
-}
 /*获取路径中的参数*/
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
@@ -16,6 +12,7 @@ function getQueryString(name) {
     }
     return result[1];
 }
+
 /*获取商品详细信息,并绑定数据*/
 function vbind_goods_featured_detail() {
     var info = new Vue({
@@ -25,14 +22,14 @@ function vbind_goods_featured_detail() {
                 goodsDetail: {},
                 similarList: [],
                 hisGoodsList: [],
-                emailMessages:{
-                    goodsid:"",
-                    goodsname:"",
-                    goodsownerid:"",
-                    senduserid:"",
-                    sendusername:"",
-                    givewords:"",
-                    giveprice:"",
+                emailMessages: {
+                    goodsid: "",
+                    goodsname: "",
+                    goodsownerid: "",
+                    senduserid: "",
+                    sendusername: "",
+                    givewords: "",
+                    giveprice: "",
                 }
             }
         },
@@ -40,12 +37,12 @@ function vbind_goods_featured_detail() {
             goGivePriceWin() {
                 var _self = this;
                 $.get("/user/loginStatus", function (data) {
-                    if(data.code == 200){
+                    if (data.code == 200) {
                         _self.emailMessages.senduserid = data.data.id;
                         _self.emailMessages.sendusername = data.data.username;
                         $("#givePrice").show();
                         $("#givePrice").css("opacity", "1");
-                    }else {
+                    } else {
                         alert("您尚未登陆");
                         parent.location.reload()
                     }
@@ -59,10 +56,14 @@ function vbind_goods_featured_detail() {
                 var url = "goods/sendEmailMessage";
                 var _this = this;
                 $.post(url, _this.emailMessages, function (data) {
-                        alert("您的消息已经发送到了卖家邮箱--等回复");
-                        _this.cancel();
+                    alert("您的消息已经发送到了卖家邮箱--等回复");
+                    _this.cancel();
                 });
-            }
+            },
+            similarGoodsDetail(goods) {
+                var iframe_box = window.parent.document.getElementById('iframe_box');
+                $(iframe_box).attr('src', "./single.html?id=" + goods.id)
+            },
         },
         created: function () {
             var url = "/goods/getGoodsDetail?id=" + getQueryString("id");
@@ -76,9 +77,10 @@ function vbind_goods_featured_detail() {
                 _self.emailMessages.goodsname = _self.goodsDetail.name;//商品名
                 _self.emailMessages.goodsownerid = _self.goodsDetail.userid;//货主id
             })
-
-
         },
+        // mounted(){
+        //
+        // },
         updated: function () {
             $('.flexslider').flexslider({
                 animation: "slide",
