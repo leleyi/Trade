@@ -21,10 +21,7 @@ function vbind_userinfo() {
                 var _this = this;
                 $.post(url,{ username: _this.username,password:_this.password} , function (data) {
                     if(data.code == 200){
-                        // var value = window.parent.document.getElementById('tmpValue').innerHTML = "个人信息"
-                        // alert(window.parent.document.getElementById('tmpValue').value)
-                        // // window.parent.vbind_index_info()
-                        // window.parent.vbind_index_info()
+
                         parent.location.reload();
                         var iframe_box = window.parent.document.getElementById('iframe_box');
                         userinfo ={
@@ -34,10 +31,6 @@ function vbind_userinfo() {
                             keyword:"",
                             password:""
                         };
-                        // iframe_box.contentWindow.vbind_index_info(data)
-                        // window.parent.document.getElementById('personalInfo').href ="http://localhost:8080?username=";
-                        // window.parent.document.getElementById('personalGoods').href ="http://localhost:8080?username=";
-                        // window.parent.document.getElementById('personalInfo').innerHTML = "个人信息"
                     }else if(data.code == 400){
                         var iframe_box = window.parent.document.getElementById('iframe_box');
                         $(iframe_box).attr('src', "./home.html");

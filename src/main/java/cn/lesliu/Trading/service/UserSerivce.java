@@ -69,4 +69,13 @@ public interface UserSerivce {
     UserDetail selectUserById(String id) throws Exception;
 
     String  getNewUserId() throws Exception;
+
+    /**
+     * 获取聊天对象
+     * @param currentUser
+     * @return
+     * @throws Exception
+     */
+    List selectChatToUsers(User currentUser) throws Exception;
+
 }

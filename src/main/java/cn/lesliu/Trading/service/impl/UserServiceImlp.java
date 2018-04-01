@@ -1,5 +1,6 @@
 package cn.lesliu.Trading.service.impl;
 
+import cn.lesliu.Trading.dao.EmailMessagesMapper;
 import cn.lesliu.Trading.dao.UserDetailMapper;
 import cn.lesliu.Trading.dao.UserMapper;
 import cn.lesliu.Trading.pojo.*;
@@ -9,17 +10,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 @Transactional
-public class UserServiceImlp implements UserSerivce{
+public class UserServiceImlp implements UserSerivce {
 
 
     @Autowired
     UserDetailMapper userDetailMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    EmailMessagesMapper emailMessagesMapper;
 
     @Override
     public int registUser(User user) throws Exception {
@@ -28,7 +32,7 @@ public class UserServiceImlp implements UserSerivce{
 
     @Override
     public int registUserDetail(UserDetail userDetail) throws Exception {
-        return  userDetailMapper.insert(userDetail);
+        return userDetailMapper.insert(userDetail);
     }
 
     @Override
@@ -57,8 +61,8 @@ public class UserServiceImlp implements UserSerivce{
         UserExample.Criteria exampleCriteria = userExample.createCriteria();
         exampleCriteria.andUsernameEqualTo(username);
         List<User> users = userMapper.selectByExample(userExample);
-        if(users!=null && users.size()>0){
-            return  users.get(0);
+        if (users != null && users.size() > 0) {
+            return users.get(0);
         }
         return null;
     }
@@ -70,8 +74,8 @@ public class UserServiceImlp implements UserSerivce{
         exampleCriteria.andUsernameEqualTo(username);
         exampleCriteria.andPasswordEqualTo(password);
         List<User> users = userMapper.selectByExample(userExample);
-        if(users!=null && users.size()>0){
-            return  users.get(0);
+        if (users != null && users.size() > 0) {
+            return users.get(0);
         }
         return null;
     }
@@ -82,16 +86,37 @@ public class UserServiceImlp implements UserSerivce{
         UserDetailExample.Criteria criteria = userDetailExample.createCriteria();
         criteria.andIdEqualTo(id);
         List<UserDetail> userDetails = userDetailMapper.selectByExample(userDetailExample);
-        if(userDetails!=null && userDetails.size()>0){
-            return  userDetails.get(0);
+        if (userDetails != null && userDetails.size() > 0) {
+            return userDetails.get(0);
         }
         return null;
     }
 
     @Override
-    public String  getNewUserId() throws Exception {
+    public String getNewUserId() throws Exception {
         String userid = userMapper.selectMaxUserID();
         return userid == null ? "00000011" : userid;
     }
 
+    @Override
+    public List selectChatToUsers(User currentUser) throws Exception {
+        EmailMessagesExample emailMessagesExample = new EmailMessagesExample();
+        EmailMessagesExample.Criteria criteria = emailMessagesExample.createCriteria();
+        EmailMessagesExample.Criteria criteriaf = emailMessagesExample.createCriteria();
+        criteria.andGoodsowneridEqualTo(currentUser.getId());
+      //  criteria.andSenduseridEqualTo(currentUser.getId());
+        criteriaf.andSenduseridEqualTo(currentUser.getId());
+        emailMessagesExample.or(criteriaf);
+        List<EmailMessages> emailMessages = emailMessagesMapper.selectByExample(emailMessagesExample);
+        List<String> ids = emailMessages.stream().map(EmailMessages::getSenduserid).collect(Collectors.toList());
+
+        UserDetailExample userDetailExample = new UserDetailExample();
+        UserDetailExample.Criteria criteria2 = userDetailExample.createCriteria();
+        if (ids.size() > 0) {
+            criteria2.andIdIn(ids);
+            return userDetailMapper.selectByExample(userDetailExample);
+        } else {
+            return null;
+        }
+    }
 }

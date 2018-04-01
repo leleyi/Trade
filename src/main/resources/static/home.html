@@ -63,8 +63,8 @@
                                     {{item.name}}
                                 </a></h5>
                                 <div class="white">
-                                    <a class="hvr-shutter-in-vertical hvr-shutter-in-vertical2 ">添加到心愿单</a>
-                                    <p class="dollar"><span class="in-dollar">{{item.price}}</span></p>
+                                    <a class="hvr-shutter-in-vertical hvr-shutter-in-vertical2 " v-on:click="enjoyGoods(item)">喜欢({{item.enjoy}})</a>
+                                    <p class="dollar"><span class="in-dollar">{{item.price}}￥</span></p>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
         </div>
         <!---->
         <div class="content-bottom">
-            <h3 class="future">精选列表</h3>
+            <h3 class="future">最新好货</h3>
             <div class="content-bottom-in">
                 <div id="newest_list">
                     <div class="col-md-3 md-col" v-for="item in newestList">
@@ -99,8 +99,8 @@
                                     {{item.name}}
                                 </a></h5>
                                 <div class="white">
-                                    <a class="hvr-shutter-in-vertical hvr-shutter-in-vertical2 ">添加到心愿单</a>
-                                    <p class="dollar"><span class="in-dollar">{{item.price}}</span></p>
+                                    <a class="hvr-shutter-in-vertical hvr-shutter-in-vertical2 " v-on:click="enjoyGoods(item)">喜欢({{item.enjoy}})</a>
+                                    <p class="dollar"><span class="in-dollar">{{item.price}}￥</span></p>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>

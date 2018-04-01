@@ -61,6 +61,7 @@ public class GoodsController {
         }
         return messageResult;
     }
+
     @ApiOperation("滚动广告")
     @GetMapping("/getAdvList")
     public MessageResult getAdvList(){
@@ -73,6 +74,7 @@ public class GoodsController {
         }
         return messageResult;
     }
+
     @ApiOperation("最新商品")
     @GetMapping("/getNewestList")
     public MessageResult getNewestList(){
@@ -85,6 +87,7 @@ public class GoodsController {
         }
         return messageResult;
     }
+
     @ApiOperation("个人商品列表")
     @GetMapping("/getMyGoodsList")
     public MessageResult getMyGoodsList(User user,String keywords){
@@ -95,7 +98,7 @@ public class GoodsController {
             if(!"".equals(keywords)){
              goods =goodsService.selectGoodsByName(user.getId(),keywords);
             }else {
-                goods = goodsService.selectGoodsOwnerList(user);
+              goods = goodsService.selectGoodsOwnerList(user);
             }
             messageResult = new MessageResult("个人商品列表",200,goods);
         }catch (Exception e){
@@ -124,6 +127,20 @@ public class GoodsController {
         }
         return messageResult;
     }
+
+    @ApiOperation("喜欢的商品")
+    @GetMapping("/enjoyGoods")
+    public MessageResult enjoyGoods(GoodsKey goodsKey){
+        MessageResult messageResult;
+        try {
+            int i = goodsService.enjoyGoods(goodsKey);
+            messageResult = new MessageResult("喜欢的商品",200,i);
+        }catch (Exception e){
+            messageResult = new MessageResult("喜欢的商品失败",500);
+        }
+        return messageResult;
+    }
+
 
     @ApiOperation("图片文件上传")
     @PostMapping("/uploadImages")
@@ -219,7 +236,6 @@ public class GoodsController {
         }
         return messageResult;
     }
-
 
     @ApiOperation("添加或删除商品图片地址")
     @PostMapping("/addOrUpdateGoodsImgs")

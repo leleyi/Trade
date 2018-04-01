@@ -42,4 +42,6 @@ public interface GoodsMapper {
     Goods selectGoodsDetail(GoodsKey goodsKey);
 
     String selectMaxGoodsID();
+
+    int updateEnjoyNum(GoodsKey goodsKey);
 }

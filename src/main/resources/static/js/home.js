@@ -66,12 +66,11 @@ function vbind_goods_featured_list(callback) {
         data:{
             advList:[]
         },
-        // methods: {
-        //     goodsDetail: function (goods) {
-
-        //         $(iframe_box).attr('src', "./single.html?id=" + goods.id)
-        //     },
-        // },
+        methods: {
+            goodsDetail: function (goods) {
+                $(iframe_box).attr('src', "./single.html?id=" + goods.id)
+            },
+        },
         created: function () {
             var url = "/goods/getAdvList";
             var _self = this;
@@ -100,6 +99,12 @@ function vbind_goods_featured_list(callback) {
                 var iframe_box = window.parent.document.getElementById('iframe_box');
                 $(iframe_box).attr('src', "./single.html?id=" + goods.id)
             },
+            enjoyGoods(goods){
+                var url = "/goods/enjoyGoods";
+                $.get(url,{id:goods.id},function (data) {
+                    goods.enjoy +=1;
+                })
+            }
         },
         created: function () {
             var url = "/goods/getFeaturedList";
@@ -120,6 +125,12 @@ function vbind_goods_featured_list(callback) {
                 var iframe_box = window.parent.document.getElementById('iframe_box');
                 $(iframe_box).attr('src', "./single.html?id=" + goods.id)
             },
+            enjoyGoods(goods){
+                var url = "/goods/enjoyGoods";
+                $.get(url,{id:goods.id},function (data) {
+                    goods.enjoy +=1;
+                })
+            }
         },
         created: function () {
             var url = "/goods/getNewestList";

@@ -480,12 +480,13 @@
   <!--获取精选列表-->
   <select id="selectGoodsFeatureList" resultMap="GoodsCommon">
     SELECT *
-    FROM goods gd inner JOIN goodsimg gi where gd.id = gi.goodsid
+    FROM goods gd where gd.id ORDER by gd.enjoy DESC limit 0,4
   </select>
+
   <!--获取最新列表-->
   <select id="selectGoodsNewestList" resultMap="GoodsCommon">
     SELECT *
-    FROM goods gd inner JOIN goodsimg gi where gd.id = gi.goodsid
+    FROM goods gd where gd.id ORDER by gd.exhibitdate DESC limit 0,4
   </select>
 
   <!--获取广告列表-->
@@ -508,6 +509,7 @@
       <result column="imgname" property="imgname" />
     </collection>
   </resultMap>
+
   <select id="selectGoodsDetail" parameterType="cn.lesliu.Trading.pojo.GoodsKey" resultMap="goodsDetail">
     SELECT * FROM goods WHERE id = #{id,jdbcType=VARCHAR}
   </select>
@@ -518,4 +520,9 @@
   <select id="selectMaxGoodsID" resultType="String">
     SELECT id from goods where id=(select max(id) from goods)
   </select>
+
+  <update id="updateEnjoyNum" parameterType="cn.lesliu.Trading.pojo.GoodsKey" >
+    update goods set enjoy=enjoy+1 where id  = #{id,jdbcType=VARCHAR}
+  </update>
+
 </mapper>

@@ -27,6 +27,8 @@ public class EmailRunnable implements Runnable {
         this.emailMessages = emailMessages;
     }
 
+
+
     @Override
     public void run() {
         try {
@@ -41,7 +43,6 @@ public class EmailRunnable implements Runnable {
             Transport transport = session.getTransport();
             transport.connect("smtp.qq.com", "653574281@qq.com", "yojjtvhfdsvhbbbf");
             MimeMessage mimeMessage = new MimeMessage(session);
-            //userDetail.getEmail()
             mimeMessage.addRecipients(Message.RecipientType.TO,userDetail.getEmail() );
             mimeMessage.setFrom("653574281@qq.com");
             mimeMessage.setSubject("莱斯商城：通知");

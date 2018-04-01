@@ -41,10 +41,8 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample.Criteria criteria = example.createCriteria();
         criteria.andAdvIsNotNull();
         List<Goods> goods = goodsMapper.selectByExample(example);
-//        List<Goods> goods = goodsMapper.selectGoodsAdvList();
-        return goods;
+        return goods.size() >= 4 ? goods.subList(0, 4) : goods;
     }
-
     @Override
     public List<Goods> selectGoodsPersonalList(User user) throws Exception {
 //        GoodsExample example = new GoodsExample();
@@ -59,7 +57,7 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample.Criteria criteria = example.createCriteria();
         criteria.andUseridEqualTo(user.getId());
         List<Goods> goods = goodsMapper.selectByExample(example);
-        return goods;
+        return goods.size() >= 3 ? goods.subList(0,3) : goods;
     }
 
     @Override
@@ -95,6 +93,11 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Goods selectGoodsDetail(GoodsKey goodsKey) throws Exception {
         Goods goods = goodsMapper.selectGoodsDetail(goodsKey);
+        GoodsImgExample example = new GoodsImgExample();
+        GoodsImgExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsidEqualTo(goodsKey.getId());
+        List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(example);
+        goods.setImgs(goodsImgs);
         return goods;
     }
 
@@ -140,5 +143,12 @@ public class GoodsServiceImpl implements GoodsService {
             }
         });
         return 1;
+    }
+
+    @Override
+    public int enjoyGoods(GoodsKey goodsKey) throws Exception {
+
+        goodsMapper.updateEnjoyNum(goodsKey);
+        return 0;
     }
 }

@@ -119,4 +119,11 @@ public interface GoodsService {
      */
     int insertGoodsImgs(List<GoodsImg> imgs)throws Exception;
 
+    /**
+     * 喜欢的商品
+     * @param goodsKey
+     * @return
+     * @throws Exception
+     */
+    int enjoyGoods(GoodsKey goodsKey) throws Exception;
 }

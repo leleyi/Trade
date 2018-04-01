@@ -139,6 +139,21 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("用户详细资料")
+    @GetMapping("/getUserDetail")
+    public MessageResult getUserDetail(User user){
+        MessageResult result;
+        try {
+            UserDetail userDetail = userSerivce.selectUserById(user.getId());
+            result = new MessageResult("获取信息成功",200,userDetail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = new MessageResult("系统繁忙", 500);
+        }
+        return result;
+    }
+
+
     @ApiOperation("登陆状态")
     @GetMapping("/loginStatus")
     public MessageResult loginStatus(){

@@ -64,6 +64,12 @@ function vbind_goods_featured_detail() {
                 var iframe_box = window.parent.document.getElementById('iframe_box');
                 $(iframe_box).attr('src', "./single.html?id=" + goods.id)
             },
+            enjoyGoods(goods){
+                var url = "/goods/enjoyGoods";
+                $.get(url,{id:goods.id},function (data) {
+                    goods.enjoy +=1;
+                })
+            }
         },
         created: function () {
             var url = "/goods/getGoodsDetail?id=" + getQueryString("id");

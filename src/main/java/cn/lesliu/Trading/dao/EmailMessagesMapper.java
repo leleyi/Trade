@@ -4,7 +4,9 @@ import cn.lesliu.Trading.pojo.EmailMessages;
 import cn.lesliu.Trading.pojo.EmailMessagesExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface EmailMessagesMapper {
     int countByExample(EmailMessagesExample example);
 
