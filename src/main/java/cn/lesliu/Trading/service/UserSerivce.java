@@ -78,4 +78,5 @@ public interface UserSerivce {
      */
     List selectChatToUsers(User currentUser) throws Exception;
 
+    void chageMessages(User duser,User fuser) throws Exception;
 }

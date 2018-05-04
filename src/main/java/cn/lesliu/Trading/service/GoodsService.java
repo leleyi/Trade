@@ -44,6 +44,7 @@ public interface GoodsService {
      * @throws Exception
      */
     List<Goods> selectGoodsOwnerList(User user) throws Exception;
+    List<Goods> selectGoodsOwnerList2(User user) throws Exception;
 
 
     /**

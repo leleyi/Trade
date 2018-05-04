@@ -23,12 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
-//    @Autowired
-    //HrService hrService;
-//    @RequestMapping(value = "/hrs",method = RequestMethod.GET)
-//    public List<Hr> getAllHr() {
-//        return hrService.getAllHr();
-//    }
 
     @Autowired
     UserSerivce userSerivce;
@@ -45,6 +39,5 @@ public class ChatController {
         }
         return messageResult;
     }
-
 
 }

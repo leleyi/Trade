@@ -28,7 +28,6 @@ public class Blog2MvcConfig  {
             corsConfiguration.addAllowedMethod("*");
             source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
-
     }
 
     @Bean

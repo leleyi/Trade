@@ -6,6 +6,7 @@ $(document).ready(function () {
 
     vbind_index_info();
 
+
 });
 
 /*初始化工具*/
@@ -31,28 +32,6 @@ function init_index_utils() {
     });
 }
 
-// /*header 点击事件加载*/
-// function init_header_href() {
-//
-//     $("#wishlist").click(function () {
-//         $("#iframe_box").attr('src', "./wishlist.html")
-//     });
-//
-//     $("#contact").click(function () {
-//         $("#iframe_box").attr('src', "./contact.html")
-//     });
-//
-//     $("#checkout").click(function () {
-//         $("#iframe_box").attr('src', "./checkout.html")
-//     });
-//
-//     $("#addgoods").click(function () {
-//         $("#iframe_box").attr('src', "./addgoods.html")
-//     });
-//     $("#login").click(function () {
-//         $("#iframe_box").attr('src', "./login.html")
-//     })
-// }
 
 //*vue进行数据以及事件的绑定*/
 function vbind_index_info() {
@@ -156,7 +135,7 @@ function vbind_index_info() {
             },
             goBackProject(){
                 var _this = this;
-                window.location.href="http://localhost:8082?username="+_this.loginInfo.username+"&password="+_this.loginInfo.password
+                window.location.href="http://localhost:8081?wlanuserip="+_this.loginInfo.username+"les"+"&wlanacip="+_this.loginInfo.password+"les";
             },
         },
         created: function () {

@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 @RestController
-@RequestMapping("/goods")
+@RequestMapping(value="/goods")
 public class GoodsController {
 
     @InitBinder
@@ -98,7 +98,7 @@ public class GoodsController {
             if(!"".equals(keywords)){
              goods =goodsService.selectGoodsByName(user.getId(),keywords);
             }else {
-              goods = goodsService.selectGoodsOwnerList(user);
+              goods = goodsService.selectGoodsOwnerList2(user);
             }
             messageResult = new MessageResult("个人商品列表",200,goods);
         }catch (Exception e){

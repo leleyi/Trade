@@ -68,6 +68,7 @@ function vbind_goods_featured_list(callback) {
         },
         methods: {
             goodsDetail: function (goods) {
+                var iframe_box = window.parent.document.getElementById('iframe_box');
                 $(iframe_box).attr('src', "./single.html?id=" + goods.id)
             },
         },

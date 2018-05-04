@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html >
 <head>
     <meta charset="UTF-8">
     <title>home</title>
@@ -32,15 +32,14 @@
             <!-- Slideshow 4 -->
             <div class="slider" id="adv_list">
                 <ul class="rslides" id="slider1" >
-                    <li v-for = "adv in advList"><img :src="adv.adv" alt="">
+                    <li v-for = "adv in advList"><img :src="adv.adv"  @click="goodsDetail(adv)" alt=""  style="cursor:pointer"/>
                     </li>
                 </ul>
             </div>
-
-            <div class="banner-bottom">
+            <div class="banner-bottom" >
                 <div class="banner-matter">
-                    <p>只要998全部带回家</p>
-                    <a href="single.html" class="hvr-shutter-in-vertical ">购买</a>
+                    <!--<p>只要998全部带回家</p>-->
+                    <!--<a href="single.html" class="hvr-shutter-in-vertical " @click="goodsDetail(item)" >购买</a>-->
                 </div>
                 <div class="clearfix"></div>
             </div>

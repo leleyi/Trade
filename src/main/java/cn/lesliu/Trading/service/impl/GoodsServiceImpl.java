@@ -6,13 +6,13 @@ import cn.lesliu.Trading.pojo.*;
 import cn.lesliu.Trading.service.GoodsService;
 import cn.lesliu.Trading.utils.UUIDUtils;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -43,6 +43,7 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goods = goodsMapper.selectByExample(example);
         return goods.size() >= 4 ? goods.subList(0, 4) : goods;
     }
+
     @Override
     public List<Goods> selectGoodsPersonalList(User user) throws Exception {
 //        GoodsExample example = new GoodsExample();
@@ -52,12 +53,35 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goods = goodsMapper.selectGoodsPersonalList(user);
         return goods;
     }
-    public List<Goods> selectGoodsOwnerList(User user) throws Exception{
+
+    public List<Goods> selectGoodsOwnerList(User user) throws Exception {
         GoodsExample example = new GoodsExample();
         GoodsExample.Criteria criteria = example.createCriteria();
         criteria.andUseridEqualTo(user.getId());
         List<Goods> goods = goodsMapper.selectByExample(example);
-        return goods.size() >= 3 ? goods.subList(0,3) : goods;
+        return goods.size() >= 3 ? goods.subList(0, 3) : goods;
+    }
+
+    public List<Goods> selectGoodsOwnerList2(User user) throws Exception {
+        GoodsExample example = new GoodsExample();
+        GoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andUseridEqualTo(user.getId());
+        List<Goods> goods = goodsMapper.selectByExample(example);
+        if (goods.size() > 0) {
+            List<String> collect = goods.stream().map(Goods::getId).collect(Collectors.toList());
+            GoodsImgExample example1 = new GoodsImgExample();
+            GoodsImgExample.Criteria criteria1 = example1.createCriteria();
+            criteria1.andGoodsidIn(collect);
+            List<GoodsImg> goodsImgs = goodsImgMapper.selectByExample(example1);
+
+            Map<String, List<GoodsImg>> collect1 = goodsImgs.stream().collect(Collectors.groupingBy(GoodsImg::getGoodsid));
+            goods.stream().forEach(x -> {
+                String id = x.getId();
+                List<GoodsImg> goodsImgs1 = collect1.get(id);
+                x.setImgs(goodsImgs1);
+            });
+        }
+        return goods;
     }
 
     @Override
@@ -65,7 +89,7 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample example = new GoodsExample();
         GoodsExample.Criteria criteria = example.createCriteria();
         criteria.andUseridEqualTo(userid);
-        criteria.andNameLike("%"+name+"%");
+        criteria.andNameLike("%" + name + "%");
         List<Goods> goods = goodsMapper.selectByExample(example);
         return goods;
     }
@@ -105,6 +129,7 @@ public class GoodsServiceImpl implements GoodsService {
     public int updateGoodsDetail(Goods goods) throws Exception {
         return goodsMapper.updateByPrimaryKey(goods);
     }
+
     @Override
     public int deleteGoodsDetail(String ids) throws Exception {
         GoodsExample example = new GoodsExample();
@@ -121,19 +146,20 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public String  getNewGoodsId() throws Exception {
+    public String getNewGoodsId() throws Exception {
         String goodsID = goodsMapper.selectMaxGoodsID();
         return goodsID == null ? "0" : goodsID;
     }
+
     @Override
-    public String getNewImgId() throws  Exception{
+    public String getNewImgId() throws Exception {
         String imgId = goodsImgMapper.selectMaxImgID();
         return imgId == null ? "0" : imgId;
     }
 
     @Override
-    public int insertGoodsImgs(List<GoodsImg> goodsImgs){
-        goodsImgs.stream().forEach(img->{
+    public int insertGoodsImgs(List<GoodsImg> goodsImgs) {
+        goodsImgs.stream().forEach(img -> {
             try {
                 String format = String.format("%08d", Integer.parseInt(getNewImgId()) + 1);
                 img.setImgid(format);

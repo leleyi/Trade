@@ -102,11 +102,8 @@ public class UserServiceImlp implements UserSerivce {
     public List selectChatToUsers(User currentUser) throws Exception {
         EmailMessagesExample emailMessagesExample = new EmailMessagesExample();
         EmailMessagesExample.Criteria criteria = emailMessagesExample.createCriteria();
-        EmailMessagesExample.Criteria criteriaf = emailMessagesExample.createCriteria();
-        criteria.andGoodsowneridEqualTo(currentUser.getId());
-      //  criteria.andSenduseridEqualTo(currentUser.getId());
-        criteriaf.andSenduseridEqualTo(currentUser.getId());
-        emailMessagesExample.or(criteriaf);
+        criteria.andGoodsowneridEqualTo(currentUser.getId());//查出当前用户的邮件信息列表---作为货主
+
         List<EmailMessages> emailMessages = emailMessagesMapper.selectByExample(emailMessagesExample);
         List<String> ids = emailMessages.stream().map(EmailMessages::getSenduserid).collect(Collectors.toList());
 
@@ -118,5 +115,24 @@ public class UserServiceImlp implements UserSerivce {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void chageMessages(User duser,User fuser) throws Exception {
+
+        EmailMessagesExample emailMessagesExample = new EmailMessagesExample();
+        EmailMessagesExample.Criteria criteria = emailMessagesExample.createCriteria();
+        criteria.andGoodsowneridEqualTo(fuser.getId());//查出当前用户的邮件信息列表---作为货主
+        criteria.andSenduseridEqualTo(duser.getId());
+        List<EmailMessages> emailMessages = emailMessagesMapper.selectByExample(emailMessagesExample);
+        if(emailMessages.size()>0){
+            EmailMessages message = emailMessages.get(0);
+            message.setMessageid(message.getMessageid()+1);
+            message.setSenduserid(fuser.getId());
+            message.setGoodsownerid(duser.getId());
+            message.setGivewords("emailBack");
+            emailMessagesMapper.insert(message);
+        }
+
     }
 }
